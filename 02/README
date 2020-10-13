@@ -1,0 +1,25 @@
+yafitsa
+===============================================================================
+Yafit Sarfati, ID 015970254, yafit.sarfati@mail.huji.ac.il
+===============================================================================
+
+                           Project 02 - Boolean Arithmetic
+                           ------------------------------- 
+  
+
+Submitted Files
+---------------
+README - This file.
+
+HalfAdder.hdl - Adds 2 one bits.
+FullAdder.hdl - Adds 3 one bits.
+Add16.hdl - Adds two 16-bit values.
+Inc16.hdl - 16-bit incrementer.
+ALU.hdl - Arithmetic Logic Unit.
+ShiftLeft.hdl - Arithmetic shift left.
+ShiftRight.hdl - Arithmetic shift right.
+Mul.hdl - Multiply two numbers.
+
+Remarks
+-------
+

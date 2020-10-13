@@ -1,0 +1,28 @@
+yafitsa
+===============================================================================
+Yafit Sarfati, ID 015970254, yafit.sarfati@mail.huji.ac.il
+===============================================================================
+
+                           Project 03 - Memory
+                           ------------------- 
+  
+
+Submitted Files
+---------------
+README - This file.
+
+a/
+Bit.hdl - 1-bit register
+PC - 16-bit program counter
+RAM8 - 16-bit / 8-register memory
+RAM64 - 16-bit / 64-register memory
+Register.hdl - 16-bit register
+
+b/
+RAM4K - 16-bit / 4096-register memory
+RAM16K - 16-bit / 16384-register memory
+RAM512 - 16-bit / 512-register memory
+
+Remarks
+-------
+

@@ -1,0 +1,65 @@
+CHIP Mul{
+    IN a[16], b[16];
+    OUT out[16];
+
+    PARTS:
+    ShiftLeft(in=a, out=shift1);
+    ShiftLeft(in=shift1, out=shift2);
+    ShiftLeft(in=shift2, out=shift3);
+    ShiftLeft(in=shift3, out=shift4);
+    ShiftLeft(in=shift4, out=shift5);
+    ShiftLeft(in=shift5, out=shift6);
+    ShiftLeft(in=shift6, out=shift7);
+    ShiftLeft(in=shift7, out=shift8);
+    ShiftLeft(in=shift8, out=shift9);
+    ShiftLeft(in=shift9, out=shift10);
+    ShiftLeft(in=shift10, out=shift11);
+    ShiftLeft(in=shift11, out=shift12);
+    ShiftLeft(in=shift12, out=shift13);
+    ShiftLeft(in=shift13, out=shift14);
+    
+    Mux16(a=false, b=a, sel=b[0], out=out0); /* checks whether the line is multiplied by zero*/
+    Mux16(a=false, b=shift1, sel=b[1], out=out1);
+    Mux16(a=false, b=shift2, sel=b[2], out=out2);
+    Mux16(a=false, b=shift3, sel=b[3], out=out3);
+    Mux16(a=false, b=shift4, sel=b[4], out=out4);
+    Mux16(a=false, b=shift5, sel=b[5], out=out5);
+    Mux16(a=false, b=shift6, sel=b[6], out=out6);
+    Mux16(a=false, b=shift7, sel=b[7], out=out7);
+    Mux16(a=false, b=shift8, sel=b[8], out=out8);
+    Mux16(a=false, b=shift9, sel=b[9], out=out9);
+    Mux16(a=false, b=shift10, sel=b[10], out=out10);
+    Mux16(a=false, b=shift11, sel=b[11], out=out11);
+    Mux16(a=false, b=shift12, sel=b[12], out=out12);
+    Mux16(a=false, b=shift13, sel=b[13], out=out13);
+    Mux16(a=false, b=shift14, sel=b[14], out=out14);
+ 
+    Add16(a=out0, b=out1, out=subSum1); /* adds the lines*/
+    Add16(a=subSum1, b=out2, out=subSum2);
+    Add16(a=subSum2, b=out3, out=subSum3);
+    Add16(a=subSum3, b=out4, out=subSum4);
+    Add16(a=subSum4, b=out5, out=subSum5);
+    Add16(a=subSum5, b=out6, out=subSum6);
+    Add16(a=subSum6, b=out7, out=subSum7);
+    Add16(a=subSum7, b=out8, out=subSum8);
+    Add16(a=subSum8, b=out9, out=subSum9);
+    Add16(a=subSum9, b=out10, out=subSum10);
+    Add16(a=subSum10, b=out11, out=subSum11);
+    Add16(a=subSum11, b=out12, out=subSum12);
+    Add16(a=subSum12, b=out13, out=subSum13);
+    Add16(a=subSum13, b=out14, out=subSum14);
+
+    Or8Way(in=a[0..7], out=aLow8); /* checks if one of the given numbers is zero */
+    Or8Way(in=a[8..15], out=aHigh8);
+    Or(a=aLow8, b=aHigh8, out=aDiffZr);
+    Or8Way(in=b[0..7], out=bLow8);
+    Or8Way(in=b[8..15], out=bHigh8);
+    Or(a=bLow8, b=bHigh8, out=bDiffZr);
+    Nand(a=aDiffZr, b=bDiffZr, out=zeroNum);
+
+    Xor(a=a[15], b=b[15], out=negBit); /* checks if the multiplication is negative */
+
+    Mux16(a=subSum14, b=false, sel=zeroNum, out[0..14]=out[0..14]);
+    Mux(a=negBit, b=false, sel=zeroNum, out=out[15]);
+
+}
