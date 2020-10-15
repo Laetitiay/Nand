@@ -13,63 +13,82 @@
 
 // Put your code here.
 
-@8192 // size of screen memory map (32*256) 
+@8192
 D=A
 @n
-M=D
-
-@i
-M=0 // i=0
+M=D  // Size of the screen memory map (32*256)
 
 @SCREEN
 D=A
 @addr
 M=D // addr = 16384 (screen's base address)
-
+@lastKBDsign // Keyboard signal = 1 iff a key is pressed. Initiates last Keyboard signal.
+M=0
+@i
+M=0 //i = 0
 (LOOP)
 	@KBD
 	D=M
 	@KEYPRESSED
 	D;JGT
-	@KEYNOTPRESSED
+	@NOKEYPRESSED
 	D;JEQ
 	(KEYPRESSED)
+		@currKBDsign
+		M=1
+	(NOKEYPRESSED)
+		@currKBDsign
+		M=0
+
+	@currKBDsign
+	D=M
+	@diffTemp
+	M=D
+	@lastKBDsign
+	D=M
+	@diffTemp
+	M=D-M
+
+	@diffTemp
+	D=M
+	@FLIPCOLOR
+	D;JNE
+	@SAMECOLOR
+	D;JEQ
+	(FLIPCOLOR)
+		@i
+		M=0
+		@SCREEN
+		D=A
+		@addr
+		M=D // addr = 16384 (screen's base address)
+		@currKBDsign
+		D=M
+		@addr
+		M=-D
+	(SAMECOLOR)
 		@i
 		D=M
 		@n
 		D=D-M
-		@BLACK16BITS // If i < n blackens 16 pixels
+		@COLOR
 		D;JLT
-		@LOOP // else returns to loop
-		0;JMP
-		(BLACK16BITS)
-			@addr
-			A=M	
-			M=-1
+		(COLOR)
 			@addr
 			M=M+1
-			@i
-			M=M+1
-			@LOOP
-			0;JMP
+			@currKBDsign
+			D=M
+			@addr
+			M=-D
+	@currKBDsign
+	D=M
+	@lastKBDsign
+	M=D
+	@i
+	M=M+1
+	(LOOP)
+	0;JMP
 
-	(KEYNOTPRESSED)
-		@i
-		D=M
-		@WHITE16BITS // If i > 0 whitens 16 pixels
-		D;JGT
-		@LOOP // else returns to loop
-		0;JMP
-		(WHITE16BITS)
-			@addr
-			M=M-1
-			@i
-			M=M-1
-			@addr
-			A=M
-			M=0
-			@LOOP
-			0;JMP
-			
-				
+
+
 
