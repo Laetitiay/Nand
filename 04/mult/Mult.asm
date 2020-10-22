@@ -14,46 +14,27 @@
 	@R2
 	M=0 // Initialization of R2 to 0
 	
-	@R0
-	D=M
-	@toMult
-	M=D // toMult = R0 
-	
-	@R1
-	D=M
-	@n
-	M=D // n = R1
-
 	@i
 	M=0 // i = 0
-
-	@mult // mult = 0
-	M=0
 
 (LOOP)
 	@i
 	D=M
-	@n
+	@R1
 	D=D-M
 	@STOP
-	D;JEQ // if i == n go to STOP
+	D;JEQ // if i == R1 go to STOP
 
-	@toMult
+	@R0
 	D=M
-	@mult
-	M=D+M //mult = mult + R0
+	@R2
+	M=D+M //R2 = R2 + R0
 	@i
 	M=M+1 // i = i + 1
 	@LOOP
 	0;JMP
 
 (STOP)
-	@mult
-	D=M
-	@R2
-	M=D // Ram[2] = mult 
-
-
 
 
 
