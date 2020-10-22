@@ -13,18 +13,18 @@
 
 // Put your code here.
 
-@8192 // size of screen memory map (32*256) 
-D=A
-@n
-M=D
+	@8192 // size of screen memory map (32*256) 
+	D=A
+	@n
+	M=D
 
-@i
-M=0 // i=0
+	@i
+	M=0 // i=0
 
-@SCREEN
-D=A
-@addr
-M=D // addr = 16384 (screen's base address)
+	@SCREEN
+	D=A
+	@addr
+	M=D // addr = 16384 (screen's base address)
 
 (LOOP)
 	@KBD
@@ -33,43 +33,46 @@ M=D // addr = 16384 (screen's base address)
 	D;JGT
 	@KEYNOTPRESSED
 	D;JEQ
-	(KEYPRESSED)
-		@i
-		D=M
-		@n
-		D=D-M
-		@BLACK16BITS // If i < n blackens 16 pixels
-		D;JLT
-		@LOOP // else returns to loop
-		0;JMP
-		(BLACK16BITS)
-			@addr
-			A=M	
-			M=-1
-			@addr
-			M=M+1
-			@i
-			M=M+1
-			@LOOP
-			0;JMP
 
-	(KEYNOTPRESSED)
-		@i
-		D=M
-		@WHITE16BITS // If i > 0 whitens 16 pixels
-		D;JGT
-		@LOOP // else returns to loop
-		0;JMP
-		(WHITE16BITS)
-			@addr
-			M=M-1
-			@i
-			M=M-1
-			@addr
-			A=M
-			M=0
-			@LOOP
-			0;JMP
-			
-				
+(KEYPRESSED)
+	@i
+	D=M
+	@n
+	D=D-M
+	@BLACKEN16BITS // If i < n blackens 16 pixels
+	D;JLT
+	@LOOP // else returns to loop
+	0;JMP
+
+(BLACKEN16BITS)
+	@addr
+	A=M	
+	M=-1
+	@addr
+	M=M+1
+	@i
+	M=M+1
+	@LOOP
+	0;JMP
+
+(KEYNOTPRESSED)
+	@i
+	D=M
+	@WHITEN16BITS // If i > 0 whitens 16 pixels
+	D;JGT
+	@LOOP // else returns to loop
+	0;JMP
+
+(WHITEN16BITS)
+	@addr
+	M=M-1
+	@i
+	M=M-1
+	@addr
+	A=M
+	M=0
+	@LOOP
+	0;JMP
+
+	
 
