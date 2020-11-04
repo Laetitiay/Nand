@@ -22,7 +22,6 @@
 
 	@num1
 	D=D-M
-
 	@END // If num2 > num1 - go to END
 	D;JGT
 
