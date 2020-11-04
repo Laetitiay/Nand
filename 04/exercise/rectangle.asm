@@ -12,45 +12,40 @@
 // the screen should remain fully clear as long as no key is pressed.
 
 // Put your code here.
+	@SCREEN
+	D=A
+	@addr
+	M=D // addr = 16384
+	// (screen’s base address)
 
-// Computes RAM[1] = 1+2+ ... +n
-// Usage: put a number (n) in RAM[0]
- // for (i=0; i<n; i++) {
-// arr[i] = -1
-// }
-// Suppose that arr=100 and n=10
-// Let arr = 100
-	@100
-	D=A
-	@arr
-	M=D
-	// Let n = 10
-	@10
-	D=A
+	@0
+	D=M
 	@n
-	M=D
-	// Let i = 0
+	M=D // n = RAM[0]
+
 	@i
-	M=0
-(lOOP)
-	// if (i==n) goto END
+	M=0 // i = 0
+
+(LOOP)
 	@i
 	D=M
 	@n
 	D=D-M
 	@END
-	D;JEQ
-	// RAM[arr+i] = -1
-	@arr
-	D=M
+	D;JGT // if i>n goto END
+
+	@addr
+	A=M
+	M=-1 // RAM[addr]=1111111111111111
+
 	@i
-	A=D+M
-	M=-1
-	// i++
-	@i
-	M=M+1
+	M=M+1 // i = i + 1
+	@32
+	D=A
+	@addr
+	M=D+M // addr = addr + 32
 	@LOOP
-	0;JMP
+	0;JMP // goto LOOP
 (END)
-	@END
-	0;JMP
+	@END // program’s end
+	0;JMP // infinite loop
