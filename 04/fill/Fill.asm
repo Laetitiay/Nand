@@ -27,7 +27,7 @@
 	M=D // addr = 16384 (screen's base address)
 
 (LOOP)
-	@KBD
+	@KBD // checks if the keyboard was pressed
 	D=M
 	@KEYPRESSED
 	D;JGT
